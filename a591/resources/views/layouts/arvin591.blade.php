@@ -20,56 +20,25 @@
 <body>
 	<div class="container-fluid">
 		<div class="row">
-			<div class="col-xl-11">
-				<!-- 表單 form -->
-				<form action="#" method="post">
-					<!-- CSRF 保護 -->
-					<!-- {{ csrf_field() }} -->
-					<!-- 表格 table -->
-					<table class="table">
-						<thead class="thead-light">
-							<tr>
-								<th scope="col-1">Arvin 591租屋</th>
-							</tr>
-						</thead>
-						<tr>
-							<th>搜尋：</th>
-							<td class="td_right"><input type="text" name="title" id="title" placeholder="關鍵字" value=""></td>
-						</tr>
-						<tr scope="row">
-							<th scope="col-1">金額：</th>
-							<td><input type="checkbox" name="price" id="price" value="0,5000">0~5000</td>
-							<td><input type="checkbox" name="price" id="price" value="5000,10000">5000~10000</td>
-							<td><input type="checkbox" name="price" id="price" value="10000,15000">10000~15000</td>
-							<td><input type="checkbox" name="price" id="price" value="15000,20000">15000~20000</td>
-							<td>最低金額：<input type="text" name="priceMin" id="priceMin" placeholder="金額" value=""></td>
-							<td>最大金額：<input type="text" name="priceMax" id="priceMax" placeholder="金額" value=""></td>
-							<td></td>
-						</tr>
-						<tr>
-							<th>刊登身分</th>
-							<td><input type="radio" name="role_name" id="role_name" value="屋主">屋主</td>
-							<td><input type="radio" name="role_name" id="role_name" value="代理人">代理人</td>
-							<td><input type="radio" name="role_name" id="role_name" value="仲介">仲介</td>
-						</tr>
-						<tr>
-							<th></th>
-							<td><input class="btn btn-primary" id="postForm" type="button" value="傳送" onClick="getMessage()" /></td>
-						</tr>
-						</tbody>
-					</table>
-				</form>
-			</div>
-
-			<div class="col-xl-1">
+			<div class="col-xl-2">
 				<div style="text-align:right;" valign="top">
-					<h1><a href="/login">登入</a></h1>
+					<h1><a href="/forgot-password">忘記密碼</a></h1>
+				</div>
+			</div>
+			<div class="col-xl-2">
+				<div style="text-align:right;" valign="top">
+					<h1><a href="/login">登入頁面</a></h1>
+				</div>
+			</div>
+			<div class="col-xl-2">
+				<div style="text-align:right;" valign="top">
+					<h1><a href="/register">註冊頁面</a></h1>
 				</div>
 			</div>
 		</div>
 	</div>
+	@yield('index01')
 	@yield('body03')
-	@yield('body02')
 	@yield('body01')
 	@yield('body03')
 </body>

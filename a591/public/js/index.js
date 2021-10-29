@@ -1,3 +1,4 @@
+$('[name="title"]').attr('placeholder','(非必填)');
 
 // X-CSRF-TOKEN
 $.ajaxSetup({

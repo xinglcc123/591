@@ -72,7 +72,7 @@ class indexController extends Controller
 				}
 			});
 		}
-
+		// $i = $products['price'];
 		info($house->toSql());	//輸出SQL語法到logs\laravel.log
 		info($house->getBindings());	//輸出搜尋值到logs\laravel.log
 
