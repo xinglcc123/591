@@ -1,12 +1,3 @@
-$('[name="title"]').attr('placeholder','(非必填)');
-
-// X-CSRF-TOKEN
-$.ajaxSetup({
-	headers: {
-		'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-	}
-});
-
 getMessage();
 
 //點擊分頁

@@ -25,13 +25,13 @@ laravel專案 會員系統+產品架
 
 namespace App\Http\Controllers;
 // use App\Http\Controllers\Controller;
-use GuzzleHttp\Client;
-use GuzzleHttp\Cookie\CookieJar;
 
 
 use DB;
 use App\Http\Controllers\Controller;
 use App\Models\House;
+use GuzzleHttp\Client;
+use GuzzleHttp\Cookie\CookieJar;
 
 class get591Controller extends Controller
 {
@@ -56,20 +56,24 @@ class get591Controller extends Controller
 
 	public function get591()
 	{
-		
+
 		// $test = House::where('id', '>', 1)->delete();
 		// $test = House::withTrashed()	//操作軟刪除
 		// $test = House::onlyTrashed()	//只操作已軟刪除資料
-        //         ->where('deleted_at', '=', '2021-09-28 04:21:02')
-        //         ->get();
-                // ->restore();	//取消軟刪除
+		//         ->where('deleted_at', '=', '2021-09-28 04:21:02')
+		//         ->get();
+		// ->restore();	//取消軟刪除
 		// echo ($test);
 		// exit;
+		$headers = array(
+			'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.159 Safari/537.36'
+		);
 		$client = new Client(array(
+			'headers' => $headers,
 			'cookies' => true
 		));
 		$response = $client->request('GET', $this->url);
-		exit;
+		// exit;
 		$body = $response->getbody()->getcontents();	//抓body
 		$domData = new \DOMDocument();
 		@$domData->loadHTML($body);
@@ -88,7 +92,7 @@ class get591Controller extends Controller
 		$i = 0;
 		do {
 			// dd($this->urlData . '&firstRow=' . $firstRow * $i);
-			$response = $client->request('GET', $this->urlData . '&firstRow=' . $firstRow * $i , [
+			$response = $client->request('GET', $this->urlData . '&firstRow=' . $firstRow * $i, [
 				'headers' => $haed,
 			]);
 			$i++;
@@ -98,28 +102,11 @@ class get591Controller extends Controller
 
 			$houses = [];
 			foreach ($data as $key => $value) {
-				// $imgUrl = 'https://rent.591.com.tw/home/business/getPhotoList?post_id=' . $value['regionname'] . '&type=1';
-				// $response = $client->request('GET', $imgUrl, [
-				// 	'headers' => $haed,
-				// ]);
-				// $body = $response->getbody()->getcontents();	//抓body
-				// return($response);
-				// exit;
-				// House::create(
-				// 	[
-				// 		"regionname" => $value['regionname'],
-				// 		"sectionname" => $value['sectionname'],
-				// 		"address" => $value['address'],
-				// 		"price" => str_replace(',', '', $value['price']),
-				// 		"filename" => $value['filename'],
-				// 		"ltime" => $value['ltime'],
-				// 	],
-				// );
-				// echo json_encode($value['rent_tag'], 320) . '<br>';
-				// exit;
+				// echo($value['title']).'</br>';
 				$houses[$key]['post_id'] = $value['post_id'];	// 物件代號
-				$houses[$key]['title'] = $value['title'];	// 標題
-				$houses[$key]['price'] = str_replace(',', '', $value['price']);	// 租金
+				$houses[$key]['post_id'] = $houses[$key]['title'] = $value['title'];	// 標題
+				$price = (explode("~", str_replace(',', '', $value['price']))); //根據空格切, ~分組
+				$houses[$key]['price'] = $price[0];	// 租金
 				$houses[$key]['community'] = $value['community'];	// 地點
 				$houses[$key]['photo_list'] = json_encode($value['photo_list'], 64);	//圖片,陣列(JSON_UNESCAPED_SLASHES)
 				$houses[$key]['rent_tag'] = json_encode($value['rent_tag'], 320);	//特色標籤,陣列(JSON_UNESCAPED_SLASHES+JSON_UNESCAPED_UNICODE)
@@ -140,24 +127,26 @@ class get591Controller extends Controller
 				$date = date("Y-m-d h:i:s");	//SQL datetime格式
 				$houses[$key]['created_at'] = $date;	//使用原生的插入語句，Laravel不會自動插入created_at和updated_at字段。
 				$houses[$key]['updated_at'] = $date;	//使用原生的插入語句，Laravel不會自動插入created_at和updated_at字段。
-				echo json_encode($houses[$key], 320) . '<br>' . PHP_EOL;
-			}
-			// dd($houses);
-			// House::where('id', 2)
-			//   ->delete();
 
+			}
+			// $test[] = $houses;
 			// House::create(	//不能輸入陣列
+			echo $i;
+			// if ($i == 3) {
+			// 	dd($houses);
+			// }
 			House::insert(	//原生的插入語句輸入陣列
 				$houses,
 			);
-		
-		// } while (count($houses) == 30);
-		} while ($i <= 2);
+
+			// } while (count($houses) == 30);
+		} while ($i <= 5);
 		// dd($data);
+		// dd($test);
 		exit;
 
 
-		
+
 		// dd($headers);
 		// dd($body);
 
@@ -186,7 +175,7 @@ class get591Controller extends Controller
 			]
 		]);
 		$headData = $responseData->getHeaders();
-		echo $headData;
+		// echo $headData;
 
 		exit;
 

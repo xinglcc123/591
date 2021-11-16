@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class House extends Model
 {
     use HasFactory;
-    use SoftDeletes;
+    use SoftDeletes;    //軟刪除
     
     protected $dates = ['deleted_at'];
 

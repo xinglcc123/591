@@ -15,12 +15,28 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+$uid = isset($_SESSION["uid"]) ? $_SESSION["uid"] : '未登入';	//登入id
 Route::get('/', function () {
     return view('welcome');
 });
 
 Route::get('/591', function () {
     return view('591');
+});
+
+Route::post('/header', [headerController::class, 'header']);
+Route::get('/index', [indexController::class, 'index']);
+Route::post('/index', [indexController::class, 'index']);
+Route::post('/ajaxRegister', [ajaxRegisterController::class, 'ajaxRegister']);
+Route::post('/ajaxLogin', [ajaxLoginController::class, 'ajaxLogin']);
+Route::post('/ajaxLogout', [ajaxLoginController::class, 'ajaxLogout']);
+Route::get('/manage', [manageController::class, 'manage']);
+Route::post('/ajaxDelete', [manageController::class, 'ajaxDelete']);    // 刪除
+Route::post('/ajaxModify', [manageController::class, 'ajaxModify']);    // 修改
+Route::get('/modify', [manageController::class, 'modify']);    // 修改
+
+Route::get('/register', function () {
+    return view('register');
 });
 
 Route::get('/login', function () {
@@ -31,15 +47,13 @@ Route::post('/send', function () {
     return view('send');
 });
 
-Route::get('/get591',[get591Controller::class,'get591']);
+
+Route::get('/get591', [get591Controller::class, 'get591']);
 // Route::get('/get591', 'App\Http\Controllers\get591Controller@get591');
 
 
 Route::get('/test', [indexController::class, 'test']);
 
-
-Route::get('/index', [indexController::class, 'index']);
-Route::post('/index',[indexController::class,'index']);
 
 
 Route::get('/admin/product/new', 'App\Http\Controllers\ProductController@newProduct');
