@@ -87,12 +87,10 @@ class a14Controller
 
 		//使用excel
 		fwrite($fp, chr(0xEF) . chr(0xBB) . chr(0xBF)); //解決excel寫入亂碼
-		
-		if (true) {
-			$t3 = 0;
-			$tt3 = 0;
-			$i = 0;
-		}
+
+		$t3 = 0;
+		$tt3 = 0;
+		$i = 0;
 		do {
 			$t1 = microtime(true);
 			//用curl
