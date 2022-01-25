@@ -91,6 +91,8 @@ class a14Controller
 		$t3 = 0;
 		$tt3 = 0;
 		$i = 0;
+		//測試
+		$aaa = 'aaa';
 		do {
 			$t1 = microtime(true);
 			//用curl
