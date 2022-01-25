@@ -45,9 +45,10 @@ class House extends Model
     // ];
     
     //撈資料排除欄位
-    // protected $hidden = [
-    //     'created_at',
-    //     'updated_at',
-    // ];
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+        'deleted_at',
+    ];
 
 }

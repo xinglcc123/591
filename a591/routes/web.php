@@ -34,6 +34,9 @@ Route::get('/manage', [manageController::class, 'manage']);
 Route::post('/ajaxDelete', [manageController::class, 'ajaxDelete']);    // 刪除
 Route::post('/ajaxModify', [manageController::class, 'ajaxModify']);    // 修改
 Route::get('/modify', [manageController::class, 'modify']);    // 修改
+Route::get('/add', [manageController::class, 'add']);    // 新增頁面
+Route::post('/ajaxAddImg', [manageController::class, 'ajaxAddImg']);    // 新增圖片
+Route::post('/ajaxAdd', [manageController::class, 'ajaxAdd']);    // 新增資料
 
 Route::get('/register', function () {
     return view('register');

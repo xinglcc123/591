@@ -1,4 +1,11 @@
-getManage();
+// var pathname = $(location).attr('pathname');
+// console.log(pathname);
+if ($(location).attr('pathname') == '/manage') {	// 後台首頁
+	getManage();
+} else if ($(location).attr('pathname') == '/modify') {
+	getModify();
+}
+
 
 //點擊分頁
 $(`ul li a`).each(function () {
@@ -29,7 +36,7 @@ $(`tr td input[name="role_name"]`).each(function () {
 // })
 
 function getManage(repage) {
-	console.log($('form').serialize());
+	// console.log($('form').serialize());
 	$('#postForm').val("傳送中..."); //更改網頁元素
 	var price = $('input[name="price"]:checked').map(function () { //取金額
 		return this.value;
@@ -85,7 +92,7 @@ function getManage(repage) {
 					str += `
 						<div class="row">
 							<div class="col-1">
-								<h3><a href="#" onClick="modify(${val.id})">修改</a></h3>
+								<h3><a href="/modify?id=${val.id}">修改</a></h3>
 							</div>
 							<div class="col-2">
 								<h3>${val.id}</h3>
@@ -129,8 +136,8 @@ function ajaxDelete(id) {
 		},
 		success: function (res) { //成功
 			if (res) {
-				console.log(res['id']);
-				console.log(res['house']);
+				// console.log(res['id']);
+				// console.log(res['house']);
 				$('#postForm').val("回傳成功"); //更改網頁元素
 				if (res['house'] == 1) {
 					alert(res['id'] + " 已成功刪除");
@@ -153,75 +160,142 @@ function ajaxDelete(id) {
 	return false;
 }
 
-function modify(id) {
-	$.ajax({
-		url: '/modify', //傳送頁面
-		type: 'GET', //傳送方式
-		data: {
-			'id': id, //編號
-		},
-		success: function (res) { //成功
-			if (res) {
-				alert(res['id'] + " 回傳成功");
-				$('#postForm').val("回傳成功"); //更改網頁元素
-				if (isset(res['id'])) {
-					window.location.href = '/modify?id=' + res['id'];
-					alert(res['id'] + " 修改");
-				}
-			} else {
-				console.log(res);
-				$('#postForm').val("回傳失敗"); //更改網頁元素
-			}
-		},
-		error: function () { //失敗
-			$('#postForm').val("發生錯誤"); //更改網頁元素
-			alert("發生錯誤");
-		}
-	});
-	return false;
-}
-
 function ajaxModify(id) {
 	$.ajax({
 		url: '/ajaxModify', //傳送頁面
 		type: 'POST', //傳送方式
 		data: {
 			'id': id, //編號
+			'title': $("#標題").val(), //標題
+			'price': $("#金額").val(), //金額
+			'community': $("#路段").val(), //路段
+			'photo_list': $("#圖片").val(), //圖片
+			'role_name': $("#身份").val(), //身份
+			'contact': $("#聯絡人").val(), //聯絡人
+			'floor_str': $("#樓層").val(), //樓層
+			'kind_name': $("#類型").val(), //類型
+			'room_str': $("#格局").val(), //格局
 		},
 		success: function (res) { //成功
 			if (res) {
-				$('#postForm').val("回傳成功"); //更改網頁元素
+				$('#postModify').val("修改成功"); //更改網頁元素
 				if (isset(res['id'])) {
 					alert(res['id'] + " 修改");
 				}
 			} else {
 				console.log(res);
-				$('#postForm').val("回傳失敗"); //更改網頁元素
+				$('#postModify').val("修改失敗"); //更改網頁元素
 			}
 		},
 		error: function () { //失敗
-			$('#postForm').val("發生錯誤"); //更改網頁元素
+			$('#postModify').val("修改發生錯誤"); //更改網頁元素
+			alert("修改發生錯誤");
+		}
+	});
+	return false;
+}
+
+function ajaxAddImg() {
+	$('#addImg').val("上傳中..."); //更改網頁元素
+	var formData = new FormData($('#ajaxAddImg')[0]);
+	// var formData = new FormData();
+	// formData.append($('myfile', '#myfile'));
+	// var formData = new FormData();
+	// formData.append("accountnum", 123456); //数字123456会被立即转换成字符串 "123456"
+	// var content = '<a id="a"><b id="b">hey!</b></a>'; // 新文件的正文
+	// var blob = new Blob([content], { type: "text/xml"});
+	// formData.append("webmasterfile", blob);
+	$.ajax({
+		url: '/ajaxAddImg', //傳送頁面
+		type: 'POST', //傳送方式
+		data: formData, //圖片
+		cache: false,	//避免有圖片 cache 狀況。
+		processData: false,	//不用額外處理資料。例：如果是 GET，預設會將 data 物件資料字串化，放到網址。
+		contentType: false,	//若有傳送檔案，設定 false，也就是會將 header 資訊中的 Content-Type 設定成 multipart/form-data；預設是 application/x-www-form-urlencoded。
+		success: function (res) { //成功
+			if (res) {
+				// $("#addImgShow").css('display', 'none');	//隱藏元素
+				$('#addImg').val(res.message); //更改網頁元素
+			} else {
+				console.log(res);
+				$('#addImg').val("上傳失敗"); //更改網頁元素
+			}
+		},
+		error: function () { //失敗
+			$('#addImg').val("發生錯誤"); //更改網頁元素
 			alert("發生錯誤");
 		}
 	});
 	return false;
 }
 
-function isset (issetValue) {
-    var a = arguments,
-        l = a.length,
-        i = 0,
-        undef;
+function ajaxAdd() {
+	$('#ajaxAddButton').val("上傳中..."); //更改網頁元素
+	$.ajax({
+		url: '/ajaxAdd', //傳送頁面
+		type: 'POST', //傳送方式
+		data: {
+			// 'id': id, //編號
+			'title': $("#titleAdd").val(), //標題
+			'price': $("#priceAdd").val(), //金額
+			'community': $("#communityAdd").val(), //路段
+			'photo_list': ['test'], //圖片
+			'role_name': $("#role_nameAdd").val(), //身份
+			'contact': $("#contactAdd").val(), //聯絡人
+			'floor_str': $("#floor_strAdd").val(), //樓層
+			'kind_name': $("#kind_nameAdd").val(), //類型
+			'room_str': $("#room_strAdd").val(), //格局
+		},
+		// cache: false,	//避免有圖片 cache 狀況。
+		// processData: false,	//不用額外處理資料。例：如果是 GET，預設會將 data 物件資料字串化，放到網址。
+		// contentType: false,	//若有傳送檔案，設定 false，也就是會將 header 資訊中的 Content-Type 設定成 multipart/form-data；預設是 application/x-www-form-urlencoded。
+		success: function (res) { //成功
+			if (res) {
+				$('#ajaxAddButton').val("上傳成功"); //更改網頁元素
+			} else {
+				console.log(res);
+				$('#ajaxAddButton').val("上傳失敗"); //更改網頁元素
+			}
+		},
+		error: function () { //失敗
+			$('#ajaxAddButton').val("發生錯誤"); //更改網頁元素
+			alert("發生錯誤");
+		}
+	});
+	return false;
+}
 
-    if (issetValue === 0) {
-        throw new Error('Empty isset');
-    }
+function isset(issetValue) {	// PHP JS上的JavaScript isset()
+	var a = arguments,
+		l = a.length,
+		i = 0,
+		undef;
 
-    while (issetValue !== l) {
-        if (a[i] === undef || a[i] === null) {
-            return false;
-        }
-        i++;
-    }
-    return true;
+	if (issetValue === 0) {
+		throw new Error('Empty isset');
+	}
+
+	while (issetValue !== l) {
+		if (a[i] === undef || a[i] === null) {
+			return false;
+		}
+		i++;
+	}
+	return true;
+}
+
+
+$("#myfile").change(function () {
+	readURL(this); // this代表<input id="">
+});
+
+function readURL(input) {	// 顯示上傳圖片
+	if (input.files && input.files[0]) {
+		var reader = new FileReader();
+		reader.onload = function (e) {
+			$("#addImgShow").attr('src', e.target.result);
+			$("#addImgShow").css('display', 'block');
+		}
+		reader.readAsDataURL(input.files[0]);
+	}
 }

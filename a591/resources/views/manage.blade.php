@@ -30,7 +30,7 @@
                 <table class="table">
                     <thead class="thead-light">
                         <tr>
-                            <th scope="col-1">後台頁面</th>
+                            <th scope="col-1">後台</th>
                         </tr>
                     </thead>
                     <tr>
@@ -55,6 +55,11 @@
                     <tr>
                         <th></th>
                         <td><input class="btn btn-primary" id="postForm" type="button" value="傳送" onClick="getManage()" /></td>
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <td><a href="/add">新增</a></td>
+                        <!-- <input class="btn btn-primary" id="postAdd" type="button" value="新增" onClick="getAdd()" /> -->
                     </tr>
                     </tbody>
                 </table>

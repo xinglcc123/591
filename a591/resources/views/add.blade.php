@@ -13,7 +13,7 @@
                 <table class="table">
                     <thead class="thead-light">
                         <tr>
-                            <th scope="col-1">後台-修改</th>
+                            <th scope="col-1">後台-新增</th>
                         </tr>
                     </thead>
                     <tr>
@@ -49,39 +49,58 @@
 
 @section('body01')
 <div id="body01" class="col-xl">
-<div class="row">
+    <div class="row">
         <div class="col-xl-11">
             <!-- 表單 form -->
-            <form action="#" method="post">
+            <form action="#" id="ajaxAddImg" method="post">
                 <!-- CSRF 保護 -->
                 <!-- {{ csrf_field() }} -->
                 <!-- 表格 table -->
                 <table class="table">
-                    <thead class="thead-light">
-                        <tr>
-                            <th scope="col-1">編號-{{ $house['id'] }}</th>
-                        </tr>
-                    </thead>
-                    @foreach ($house as $k => $v)
-                        @if ($k == '圖片')
-                            <tr>
-                                <th>{{ $k }}：</th>
-                            @foreach ($v as $k2 => $v2)
-                                <td class="col-1">
-                                    <img src="{{ $v2 }}" class="img-thumbnail" >
-                                </td>
-                            @endforeach
-                            </tr>
-                        @else
-                        <tr>
-                            <th>{{ $k }}：</th>
-                            <td class="td_right"><input type="text" name="{{ $k }}" id="{{ $k }}" placeholder="{{ $k }}" value="{{ $v }}"></td>
-                        </tr>
-                        @endif
-                    @endforeach
                     <tr>
-                        <th></th>
-                        <td><input class="btn btn-primary" id="postModify" type="button" value="傳送" onClick="ajaxModify({{ $house['id'] }})" /></td>
+                        <th>標題：</th>
+                        <td class="td_right"><input type="text" name="titleAdd" id="titleAdd" placeholder="標題" value="test"></td>
+                    </tr>
+                    <tr>
+                        <th>金額：</th>
+                        <td class="td_right"><input type="text" name="priceAdd" id="priceAdd" placeholder="金額" value="1000"></td>
+                    </tr>
+                    <tr>
+                        <th>路段：</th>
+                        <td class="td_right"><input type="text" name="communityAdd" id="communityAdd" placeholder="路段" value="test"></td>
+                    </tr>
+                    <tr>
+                        <th>圖片</th>
+                        <td class="td_right">
+                            選擇檔案:<input type="file" name="myfile" id="myfile" accept="image/gif, image/jpeg, image/png" />
+                            <img id="addImgShow" style="display: none;" src="#" />
+                        </td>
+                        <td class="col-1">
+                            <input type="button" id="addImg" value="上傳檔案" onClick="ajaxAddImg()" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>身份：</th>
+                        <td class="td_right"><input type="text" name="role_nameAdd" id="role_nameAdd" placeholder="身份" value="test"></td>
+                    </tr>
+                    <tr>
+                        <th>聯絡人：</th>
+                        <td class="td_right"><input type="text" name="contactAdd" id="contactAdd" placeholder="聯絡人" value="test"></td>
+                    </tr>
+                    <tr>
+                        <th>樓層：</th>
+                        <td class="td_right"><input type="text" name="floor_strAdd" id="floor_strAdd" placeholder="樓層" value="test"></td>
+                    </tr>
+                    <tr>
+                        <th>類型：</th>
+                        <td class="td_right"><input type="text" name="kind_nameAdd" id="kind_nameAdd" placeholder="類型" value="test"></td>
+                    </tr>
+                    <tr>
+                        <th>格局</th>
+                        <td class="td_right"><input type="text" name="room_strAdd" id="room_strAdd" placeholder="格局" value="test"></td>
+                    </tr>
+                    <tr>
+                        <td><input class="btn btn-primary" id="ajaxAddButton" type="button" value="新增" onClick="ajaxAdd()" /></td>
                     </tr>
                     </tbody>
                 </table>

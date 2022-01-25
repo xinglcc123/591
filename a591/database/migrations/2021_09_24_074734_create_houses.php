@@ -15,9 +15,9 @@ class CreateHouses extends Migration
     {
         Schema::create('houses', function (Blueprint $table) {
             $table->bigIncrements('id');	//遞增的 ID（主鍵），使用相當於「UNSIGNED BIG INTEGER」的型態。
-            $table->text('post_id');			// 物件代號
+            $table->text('post_id')->nullable();			// 物件代號
             $table->text('title');				// 標題
-            $table->float('price');				// 租金
+            $table->float('price', 12, 1);				// 租金
             $table->text('community');			// 地點
             $table->text('photo_list');			// 圖片,陣列
             $table->text('rent_tag')->nullable();			// 特色標籤,陣列
